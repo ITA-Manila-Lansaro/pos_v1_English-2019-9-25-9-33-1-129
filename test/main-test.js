@@ -41,7 +41,7 @@ describe('pos', () => {
 
     expect(require.decodeTags(tags))
     .toMatchObject([
-      {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 2},
+      {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 3},
       {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2}
     ]);
   });
@@ -69,7 +69,7 @@ describe('pos', () => {
 
     expect(require.combineItems(decodedBarcodes))
     .toMatchObject([
-    {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 2},
+    {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 3 },
     {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2.5}
     ]);
   });
@@ -82,14 +82,14 @@ describe('pos', () => {
     {barcode:'ITEM000005', count: 3},
     {barcode: 'ITEM000003' , count: 2.5}];
 
-    expect(require.combineItems(decodedBarcodes))
+    expect(require.loadItems(decodedBarcodes))
     .toMatchObject([
     {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag'},
     {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound'}
     ]);
   });
 
-/* --------------- */
+/* --------------------------------------------------------------------------------------------------------------------*/
 
   it('Should return receipt[obj] when calculateReceipt() feed with items object', () => {
 
