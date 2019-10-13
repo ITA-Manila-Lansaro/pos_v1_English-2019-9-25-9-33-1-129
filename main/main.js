@@ -1,6 +1,6 @@
 'use strict';
 
-const data = require('../test/fixtures');
+// const data = require('../test/fixtures');
 
 function printReceipt(tags){
 
@@ -88,7 +88,7 @@ function loadItems(decodedBarcodes){
 
     let itemsWithoutCount = [];
 
-     data.loadAllItems().forEach(item => {
+     loadAllItems().forEach(item => {
         if (decodedBarcodes.find(a => a.barcode === item.barcode))
         itemsWithoutCount.push(item);
     })
@@ -113,7 +113,7 @@ function calculateReceipt(items){
 
 function loadPromotion(){
 
-    return data.loadPromotions();
+    return loadPromotions();
 
 }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const main = require('../main/main');
+// const main = require('../main/main');
 
 describe('pos', () => {
 
@@ -19,7 +19,7 @@ describe('pos', () => {
 
     spyOn(console, 'log');
 
-    main.printReceipt(tags);
+    printReceipt(tags);
 
     const expectText = `***<store earning no money>Receipt ***\n`+
 `Name：Sprite，Quantity：5 bottles，Unit：3.00(yuan)，Subtotal：12.00(yuan)\n`+
@@ -30,7 +30,7 @@ describe('pos', () => {
 `Discounted prices：7.50(yuan)\n`+
 `**********************`;
 
-    expect(main.printReceipt(tags)).toBe(expectText);
+    expect(printReceipt(tags)).toBe(expectText);
   });
 
 //   /* --------------- */
@@ -39,8 +39,8 @@ describe('pos', () => {
 
     const tags = ['ITEM000005-2', 'ITEM000005', 'ITEM000003-2.5'];
 
-    expect(main.decodeTags(tags))
-    .toMatchObject([
+    expect(decodeTags(tags))
+    .toEqual([
       {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2.5},
       {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 3}
     ]);
@@ -52,8 +52,8 @@ describe('pos', () => {
 
     const tags = ['ITEM000005-2', 'ITEM000005', 'ITEM000003-2.5', 'ITEM000003-2.7', 'ITEM000003'];
 
-    expect(main.decodeBarcodes(tags))
-    .toMatchObject([
+    expect(decodeBarcodes(tags))
+    .toEqual([
     {barcode:'ITEM000005', count: 3},
     {barcode: 'ITEM000003' , count: 6.2}
     ]);
@@ -67,8 +67,8 @@ describe('pos', () => {
     {barcode:'ITEM000005', count: 3},
     {barcode: 'ITEM000003' , count: 2.5}];
 
-    expect(main.combineItems(decodedBarcodes))
-    .toMatchObject([
+    expect(combineItems(decodedBarcodes))
+    .toEqual([
     {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2.5},
     {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 3 }
     ]);
@@ -82,8 +82,8 @@ describe('pos', () => {
     {barcode:'ITEM000005', count: 3},
     {barcode: 'ITEM000003' , count: 2.5}];
 
-    expect(main.loadItems(decodedBarcodes))
-    .toMatchObject([
+    expect(loadItems(decodedBarcodes))
+    .toEqual([
     {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound'},
     {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag'}
     ]);
@@ -97,10 +97,10 @@ describe('pos', () => {
       {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 2},
       {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2}];
 
-    expect(main.calculateReceipt(items))
-    .toMatchObject({     
-      receiptItems: [{barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 2},
-                     {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2}],
+    expect(calculateReceipt(items))
+    .toEqual({     
+      receiptItems: [{barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 2, subtotal: 4.50},
+                     {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2, subtotal: 30}],
       total : 34.50.toFixed(2),
       savings : 4.50.toFixed(2)
     });
@@ -114,7 +114,7 @@ describe('pos', () => {
     {"barcode": "ITEM000003", "count": 2.5, "name": "Litchi", "price": 15, "subtotal": 37.5, "unit": "pound"}, 
     {"barcode": "ITEM000005", "count": 3, "name": "Instant Noodles", "price": 4.5, "subtotal": 9, "unit": "bag"}];
     
-    expect(main.calculateReceiptTotal(receiptItems))
+    expect(calculateReceiptTotal(receiptItems))
     .toBe(58.50);
   });
 
@@ -126,7 +126,7 @@ it('Should return savings when calculateReceiptTotal() feed with receiptItems ob
   {"barcode": "ITEM000003", "count": 2.5, "name": "Litchi", "price": 15, "subtotal": 37.5, "unit": "pound"}, 
   {"barcode": "ITEM000005", "count": 3, "name": "Instant Noodles", "price": 4.5, "subtotal": 9, "unit": "bag"}];
   
-  expect(main.calculateReceiptSavings(receiptItems))
+  expect(calculateReceiptSavings(receiptItems))
   .toBe(7.50);
 });
 
@@ -135,8 +135,8 @@ it('Should return savings when calculateReceiptTotal() feed with receiptItems ob
 
 it('Should return promotion when loadPromotion()', () => {
   
-  expect(main.loadPromotion())
-  .toMatchObject([{
+  expect(loadPromotion())
+  .toEqual([{
     type: 'BUY_TWO_GET_ONE_FREE',
     barcodes: [
       'ITEM000000',
@@ -161,8 +161,8 @@ it('Should return receiptItems when promoteReceiptItems() feed with items and pr
       'ITEM000005'
     ]}];
   
-  expect(main.promoteReceiptItems(items,promotion))
-  .toMatchObject([
+  expect(promoteReceiptItems(items,promotion))
+  .toEqual([
   {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 3, subtotal: 9},
   {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2, subtotal: 30}
   ]);
@@ -176,8 +176,8 @@ it('Should return receiptItems when calculateReceiptItems() feed with items obje
     {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 4},
     {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2}];
   
-  expect(main.calculateReceiptItems(items))
-  .toMatchObject([
+  expect(calculateReceiptItems(items))
+  .toEqual([
   {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 4, subtotal: 13.50},
   {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2, subtotal: 30}
   ]);
