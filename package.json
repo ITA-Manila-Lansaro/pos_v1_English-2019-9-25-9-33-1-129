@@ -1,19 +1,27 @@
 {
-  "name": "pos",
+  "name": "pos_v1_english-2019-9-25-9-33-1-129",
   "version": "1.0.0",
-  "description": "N/A",
-  "engines": {
-    "node": ">=6.0.0"
+  "description": "POS Cash Register Version：v1",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^24.9.0"
   },
   "scripts": {
-    "lint": "eslint . -c twa-camp-2016 --no-eslintrc || true"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "devDependencies": {
-    "eslint": "^3.0.1",
-    "eslint-config-twa-camp-2016": ">=0.2.1",
-    "eslint-plugin-extra-rules": "^0.6.1",
-    "eslint-plugin-node": "^2.0.0",
-    "eslint-plugin-spellcheck": "0.0.7",
-    "eslint-plugin-xo": "^0.5.1"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ITA-Manila-Lansaro/pos_v1_English-2019-9-25-9-33-1-129.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ITA-Manila-Lansaro/pos_v1_English-2019-9-25-9-33-1-129/issues"
+  },
+  "homepage": "https://github.com/ITA-Manila-Lansaro/pos_v1_English-2019-9-25-9-33-1-129#readme"
 }

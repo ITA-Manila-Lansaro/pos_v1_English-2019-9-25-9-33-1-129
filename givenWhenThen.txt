@@ -1,0 +1,134 @@
+given 
+ tags = ['ITEM000001',
+      'ITEM000001',
+      'ITEM000001',
+      'ITEM000001',
+      'ITEM000001',
+      'ITEM000003-2.5',
+      'ITEM000005',
+      'ITEM000005-2']
+When 
+printReceipt(tags)
+
+Then
+***<store earning no money>Receipt ***
+Name:Sprite,Quantity:5 bottles,Unit:3.00(yuan),Subtotal:12.00(yuan)
+Name:Litchi,Quantity:2.5 pounds,Unit:15.00(yuan),Subtotal:37.50(yuan)
+Name:Instant Noodles,Quantity:3 bags,Unit:4.50(yuan),Subtotal:9.00(yuan)
+----------------------
+Total:58.50(yuan)
+Discounted prices:7.50(yuan)
+**********************
+
+*********
+
+given 
+ ['ITEM000005-2', 'ITEM000005', 'ITEM000003-2.5']
+
+when
+decodeTags(['ITEM000005-2', 'ITEM000005', 'ITEM000003-2.5']);
+
+then
+[{barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2.5},
+{barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 3}]
+
+
+***********
+
+Given
+['ITEM000005-2', 'ITEM000005', 'ITEM000003-2.5', 'ITEM000003-2.7', 'ITEM000003']
+When 
+decodeBarcodes(tags)
+Then
+[  {barcode:'ITEM000005', count: 3},
+    {barcode: 'ITEM000003' , count: 6.2}]
+
+********
+
+
+Given 
+[{barcode:'ITEM000005', count: 3},
+    {barcode: 'ITEM000003' , count: 2.5}]
+When
+combineItems(decodedBarcodes)
+Then
+{barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2.5},
+    {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 3 }
+    
+*********
+
+Given
+[ {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 2},
+      {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2}];
+
+When
+calculateReceipt(items)
+
+Then
+
+{     
+      receiptItems: [{barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 2},
+                     {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2}],
+      total : 34.50.toFixed(2),
+      savings : 4.50.toFixed(2)
+}
+
+*********
+Given 
+{"barcode": "ITEM000001", "count": 5, "name": "Sprite", "price": 3, "subtotal": 12, "unit": "bottle"}, 
+    {"barcode": "ITEM000003", "count": 2.5, "name": "Litchi", "price": 15, "subtotal": 37.5, "unit": "pound"}, 
+    {"barcode": "ITEM000005", "count": 3, "name": "Instant Noodles", "price": 4.5, "subtotal": 9, "unit": "bag"}];
+    
+When
+calculateReceiptTotal(receiptItems)
+
+Then
+58.50
+
+*********
+Given 
+ [{"barcode": "ITEM000001", "count": 5, "name": "Sprite", "price": 3, "subtotal": 12, "unit": "bottle"}, 
+  {"barcode": "ITEM000003", "count": 2.5, "name": "Litchi", "price": 15, "subtotal": 37.5, "unit": "pound"}, 
+  {"barcode": "ITEM000005", "count": 3, "name": "Instant Noodles", "price": 4.5, "subtotal": 9, "unit": "bag"}];
+  
+When
+calculateReceiptSavings(receiptItems)
+Then
+7.50
+
+*********
+
+Given 
+{barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 3},
+    {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2}];
+ [{
+    type: 'BUY_TWO_GET_ONE_FREE',
+    barcodes: [
+      'ITEM000000',
+      'ITEM000001',
+      'ITEM000005'
+    ]}]
+
+When
+promoteReceiptItems(items,promotion)
+
+Then
+[
+  {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 3, subtotal: 9},
+  {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2, subtotal: 30}
+  ]
+
+*********
+
+Given 
+{barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 4},
+    {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2}];
+  
+When
+calculateRceiptItems(items)
+
+Then
+[
+  {barcode:'ITEM000005', name:'Instant Noodles', price: 4.50, unit: 'bag', count: 4, subtotal: 13.50},
+  {barcode: 'ITEM000003' , name:'Litchi', price: 15.00, unit: 'pound', count: 2, subtotal: 30}
+]
